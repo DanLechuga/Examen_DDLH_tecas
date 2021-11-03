@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Examen_DDLH_tecas.Models.ModeloHistorial>
+
+@{
+    ViewData["Title"] = "ConsultaHistorial";
+}
+
+<h1>ConsultaHistorial</h1>
+
+@ViewData["Usuario"].ToString()
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idHistorial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idCuenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descripcion_Movimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_movimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.monto_movimiento)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idHistorial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idCuenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion_Movimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_movimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.monto_movimiento)
+            </td>
+            <td>
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,19 @@
+﻿@model Examen_DDLH_tecas.Models.ModeloUsuario
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@using (Html.BeginForm("Login","Usuarios",FormMethod.Post))
+{
+<div class="text-center">
+    <h1 class="text-xl-right">Welcome</h1>
+    <h1 class="text-black-50">Ingrese nombre de usuario:</h1>
+    @Html.TextBoxFor(m => m.Username)
+    <h1 class="text-black-50">Ingrese contraseña:</h1>
+    @Html.PasswordFor(m => m.Password)
+    <br />
+    <br />
+    <input type="submit" value="Entrar" />
+</div>
+}
+

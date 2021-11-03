@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Examen_DDLH_tecas.Models.ModeloCuenta>
+
+@{
+    ViewData["Title"] = "ConsultaSaldo";
+    
+}
+
+<h1>ConsultaSaldo</h1>
+<h4>@ViewData["Usuario"].ToString()</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Cuenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescripcionCuenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Saldo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Cuenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionCuenta)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.Saldo)
+            </td>
+            <td>
+                
+                <a class="nav-link text-dark" href="/Cuentas/Retiro?id_Cuenta=@item.Id_Cuenta&nombreUsuario=@ViewData["Usuario"].ToString()">Retiro de Saldo</a>
+                <a class="nav-link text-dark" href="/Cuentas/Deposito?id_Cuenta=@item.Id_Cuenta&nombreUsuario=@ViewData["Usuario"].ToString()">Deposito de Saldo</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

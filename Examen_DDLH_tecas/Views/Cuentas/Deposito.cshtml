@@ -1,0 +1,55 @@
+﻿@model Examen_DDLH_tecas.Models.ModeloDeposito
+@{
+    ViewData["Usuario"].ToString();
+}
+<link href="~/css/estilos_exm.css" rel="stylesheet" />
+<h1>Deposito</h1>
+<h3>Cuenta Seleccionada:</h3>
+@Html.DisplayFor(x => x.nombreUsuario)
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Cuenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescripcionCuenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Saldo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Id_Cuenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.DescripcionCuenta)
+            </td>
+            <td>
+                <p id="txtSaldo">$@Html.DisplayFor(modelItem => modelItem.Saldo)</p>
+            </td>
+            <td>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+@using (Html.BeginForm("DepositoCuenta", "Cuentas", FormMethod.Post))
+{
+
+    @Html.TextBoxFor(x => x.Id_Cuenta, new { hidden = "hidden" })
+    @Html.TextBoxFor(x => x.DescripcionCuenta, new { hidden = "hidden" })
+    @Html.TextBoxFor(x => x.Saldo, new { hidden = "hidden" })
+    @Html.TextBoxFor(x => x.movimiento, new { hidden = "hidden" })
+    @Html.TextBoxFor(x => x.nombreUsuario, new { hidden = "hidden" })
+    <h3>Ingrese la cantidad a Depositar</h3>
+    @Html.TextBoxFor(x => x.cantidadAManiaobrar)
+    <br />
+    <input type="submit" value="Depositar Cantidad" />
+}
