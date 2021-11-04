@@ -3,6 +3,7 @@
     ViewData["Usuario"].ToString();
 }
 <link href="~/css/estilos_exm.css" rel="stylesheet" />
+<script src="~/js/Depositos.js"></script>
 <h1>Deposito</h1>
 <h3>Cuenta Seleccionada:</h3>
 @Html.DisplayFor(x => x.nombreUsuario)
@@ -49,7 +50,7 @@
     @Html.TextBoxFor(x => x.movimiento, new { hidden = "hidden" })
     @Html.TextBoxFor(x => x.nombreUsuario, new { hidden = "hidden" })
     <h3>Ingrese la cantidad a Depositar</h3>
-    @Html.TextBoxFor(x => x.cantidadAManiaobrar)
+    @Html.TextBoxFor(x => x.cantidadAManiaobrar, new { onchange ="validarDeposito()", onkeypress ="pulsar(event)"})
     <br />
-    <input type="submit" value="Depositar Cantidad" />
+    <input type="submit" value="Depositar Cantidad" id="BotonS" />
 }

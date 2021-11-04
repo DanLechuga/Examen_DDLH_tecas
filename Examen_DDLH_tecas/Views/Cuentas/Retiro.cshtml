@@ -1,10 +1,12 @@
 ﻿@model Examen_DDLH_tecas.Models.ModeloRetiro
-@{ 
+@{
     ViewData["Usuario"].ToString();
 }
 <link href="~/css/estilos_exm.css" rel="stylesheet" />
+<script src="~/js/Retiros.js"></script>
 <h1>Retiro</h1>
 <h3>Cuenta Seleccionada:</h3>
+
 @Html.DisplayFor(x => x.nombreUsuario)
 <table class="table">
     <thead>
@@ -46,10 +48,10 @@
     @Html.TextBoxFor(x => x.Id_Cuenta, new { hidden = "hidden" })
     @Html.TextBoxFor(x => x.DescripcionCuenta, new { hidden = "hidden" })
     @Html.TextBoxFor(x => x.Saldo, new { hidden = "hidden" })
-    @Html.TextBoxFor(x => x.movimiento,new { hidden = "hidden"})
-    @Html.TextBoxFor(x => x.nombreUsuario, new{ hidden = "hidden" })
+    @Html.TextBoxFor(x => x.movimiento, new { hidden = "hidden" })
+    @Html.TextBoxFor(x => x.nombreUsuario, new { hidden = "hidden" })
     <h3>Ingrese la cantidad a Retirar</h3>
-    @Html.TextBoxFor(x => x.cantidadAManiaobrar)
+    @Html.TextBoxFor(x => x.cantidadAManiaobrar, new { onchange = "VerificaAccion()", onkeypress = "pulsar(event)" })
     <br />
-    <input type="submit" value="Retirar Cantidad" />
+    <input type="submit" value="Retirar Cantidad" id="botonS" />
 }
