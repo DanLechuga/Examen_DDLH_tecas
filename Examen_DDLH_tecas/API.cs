@@ -11,7 +11,7 @@ namespace Examen_DDLH_tecas
 {
     public static class API
     {
-        public static List<Models.ModeloCuenta> GetItems(string nombreUsuario)
+        public static List<ModeloCuenta> GetItems(string nombreUsuario)
         {
             var url = $"https://localhost:2001/GetCuentas?nombreUsario="+nombreUsuario;
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -30,7 +30,7 @@ namespace Examen_DDLH_tecas
                             string responseBody = objReader.ReadToEnd();
                             // Do something with responseBody
                             string[] arregloDatos = responseBody.Split(",");
-                            List<Models.ModeloCuenta> listaModelosCuentas = new List<Models.ModeloCuenta>();
+                            List<ModeloCuenta> listaModelosCuentas = new();
                             int id = 0;
                             string descripcion = string.Empty, saldofinal = string.Empty;
                             double saldo = 0.0;
@@ -60,7 +60,7 @@ namespace Examen_DDLH_tecas
 
                                 if(id != 0 && !string.IsNullOrEmpty(descripcion)&& !double.IsNaN(saldo) && saldo != 0.0)
                                 {
-                                    listaModelosCuentas.Add(new Models.ModeloCuenta(id, descripcion, saldo,nombreUsuario));
+                                    listaModelosCuentas.Add(new ModeloCuenta(id, descripcion, saldo,nombreUsuario));
                                     id = 0;
                                     descripcion = string.Empty;
                                     saldo = 0.0;
@@ -78,6 +78,97 @@ namespace Examen_DDLH_tecas
             {
                 throw ex;
             }
+        }
+
+        public static IEnumerable<ModeloReporte> GetReportes(string nombreUsuario)
+        {
+            List<ModeloReporte> modelo = new();
+            var url = $"https://localhost:2001/GetReportes?nombreUsario=" + nombreUsuario;
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "GET";
+            request.ContentType = "application/json";
+            request.Accept = "application/json";
+            try
+            {
+                
+                using (WebResponse response = request.GetResponse())
+                {
+                    using (Stream strReader = response.GetResponseStream())
+                    {
+                        if (strReader == null) return null;
+                        using (StreamReader objReader = new StreamReader(strReader))
+                        {
+                            
+                            int idReporte = 0, idUsuario = 0, totalHoras = 0;
+                            DateTime date = DateTime.MinValue;
+                            TimeSpan horainicio = TimeSpan.Zero, horaFin = TimeSpan.Zero;
+                            string concepto = string.Empty, actividad = string.Empty, diaDeLaSemana = string.Empty;
+                            string responseBody = objReader.ReadToEnd();
+                            // Do something with responseBody
+                            string[] arregloDatos = responseBody.Split(",");
+                            for (int i = 0; i < arregloDatos.Length; i++)
+                            {
+                                if (arregloDatos[i].Contains("idReporte"))
+                                {
+                                    idReporte = int.Parse(arregloDatos[i].Split(':')[1]);
+
+                                }else if (arregloDatos[i].Contains("idUsuario"))
+                                {
+                                    idUsuario = int.Parse(arregloDatos[i].Split(':')[1]);
+                                }else if (arregloDatos[i].Contains("diaDeLaSemana"))
+                                {
+                                    diaDeLaSemana = arregloDatos[i].Split(':')[1];
+                                }else if (arregloDatos[i].Contains("fechaIngresoActividad"))
+                                {
+                                    string fecha = arregloDatos[i].Split(':')[1] + ":" + arregloDatos[i].Split(':')[2] + ":" + arregloDatos[i].Split(':')[3];
+                                    fecha = fecha.Substring(1);
+                                    fecha = fecha.Substring(0, fecha.Length - 1);
+                                    date = DateTime.Parse(fecha);
+                                }else if (arregloDatos[i].Contains("concepto"))
+                                {
+                                    concepto = arregloDatos[i].Split(':')[1];
+                                }else if (arregloDatos[i].Contains("actividad"))
+                                {
+                                    actividad = arregloDatos[i].Split(':')[1]; 
+                                }else if (arregloDatos[i].Contains("horaInicio"))
+                                {
+                                    string ticks = arregloDatos[i].Split(':')[2];
+                                    long valor = long.Parse(ticks);
+                                    horainicio = TimeSpan.FromTicks(valor);
+                                }else if (arregloDatos[i].Contains("horaFin"))
+                                {
+                                    string ticks = arregloDatos[i].Split(':')[2];
+                                    long valor = long.Parse(ticks);
+                                    horaFin = TimeSpan.FromTicks(valor);
+                                }else if (arregloDatos[i].Contains("totalDeHoras"))
+                                {
+                                    if (arregloDatos[i].Split(':')[1].Contains("}]"))
+                                    {
+                                        totalHoras = int.Parse(arregloDatos[i].Split(':')[1].Substring(0, arregloDatos[i].Split(':')[1].Length - 1).Substring(0, arregloDatos[i].Split(':')[1].Length - 2));
+                                    }
+                                    if (arregloDatos[i].Split(':')[1].Contains("}")&& totalHoras == 0)
+                                    {
+                                        totalHoras = int.Parse(arregloDatos[i].Split(':')[1].Substring(0, arregloDatos[i].Split(':')[1].Length-1));
+                                    }
+                                }
+                                if(idReporte != 0 && idUsuario != 0 && !string.IsNullOrEmpty(concepto)&& !string.IsNullOrEmpty(actividad)&& !string.IsNullOrEmpty(diaDeLaSemana)&& horainicio != TimeSpan.Zero && horaFin != TimeSpan.Zero && date != DateTime.MinValue && totalHoras != 0)
+                                {
+                                    modelo.Add(new ModeloReporte() {IdReporte = idReporte,IdUsuario = idUsuario, Concepto = concepto, Actividad = actividad, DiaDeLaSemana = diaDeLaSemana, FechaIngresoActividad = date, HoraInicio = horainicio, HoraFin = horaFin, TotalDeHoras = totalHoras });
+                                    idReporte = 0; idUsuario = 0; concepto = string.Empty; actividad = string.Empty; diaDeLaSemana = string.Empty; date = DateTime.MinValue; horainicio = TimeSpan.Zero; horaFin = TimeSpan.Zero; totalHoras = 0;                                                
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }catch(WebException ex)
+            {
+                throw ex;
+            }
+
+            return modelo;
+
+                            
         }
 
         public static void PostCuenta(ModeloDeposito modelo)

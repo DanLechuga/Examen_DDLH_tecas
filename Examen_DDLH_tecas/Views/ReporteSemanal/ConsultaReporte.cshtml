@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Examen_DDLH_tecas.Models.ModeloReporte>
+
+
+@{
+    ViewData["Title"] = "ConsultaReporteSemanal";
+}
+
+<h1>ConsultaHistorial</h1>
+
+@ViewData["Usuario"].ToString()
+<br />
+<a class="alert-link" href="/ReporteSemanal/CrearActividad?nombreUsuario=@ViewData["Usuario"].ToString()">Crear Actividad</a>   
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdReporte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiaDeLaSemana)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaIngresoActividad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Concepto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Actividad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalDeHoras)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdReporte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaDeLaSemana)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaIngresoActividad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Concepto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Actividad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalDeHoras)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
